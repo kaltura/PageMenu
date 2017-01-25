@@ -61,6 +61,39 @@ open class MenuItemView: UIView {
     }
 }
 
+public func ==(lhs: CAPSPageMenuOption, rhs: CAPSPageMenuOption) -> Bool {
+    switch (lhs, rhs) {
+    case (.selectionIndicatorHeight(let a),   .selectionIndicatorHeight(let b))   where a == b: return true
+    case (.menuItemSeparatorWidth(let a),   .menuItemSeparatorWidth(let b))   where a == b: return true
+    case (.scrollMenuBackgroundColor(let a),   .scrollMenuBackgroundColor(let b))   where a == b: return true
+    case (.viewBackgroundColor(let a),   .viewBackgroundColor(let b))   where a == b: return true
+    case (.bottomMenuHairlineColor(let a),   .bottomMenuHairlineColor(let b))   where a == b: return true
+    case (.selectionIndicatorColor(let a),   .selectionIndicatorColor(let b))   where a == b: return true
+    case (.menuItemSeparatorColor(let a),   .menuItemSeparatorColor(let b))   where a == b: return true
+    case (.menuMargin(let a),   .menuMargin(let b))   where a == b: return true
+    case (.menuItemMargin(let a),   .menuItemMargin(let b))   where a == b: return true
+    case (.menuHeight(let a),   .menuHeight(let b))   where a == b: return true
+    case (.selectedMenuItemLabelColor(let a),   .selectedMenuItemLabelColor(let b))   where a == b: return true
+    case (.unselectedMenuItemLabelColor(let a),   .unselectedMenuItemLabelColor(let b))   where a == b: return true
+    case (.useMenuLikeSegmentedControl(let a),   .useMenuLikeSegmentedControl(let b))   where a == b: return true
+    case (.menuItemSeparatorRoundEdges(let a),   .menuItemSeparatorRoundEdges(let b))   where a == b: return true
+    case (.menuItemFont(let a),   .menuItemFont(let b))   where a == b: return true
+    case (.menuItemSeparatorPercentageHeight(let a),   .menuItemSeparatorPercentageHeight(let b))   where a == b: return true
+    case (.menuItemWidth(let a),   .menuItemWidth(let b))   where a == b: return true
+    case (.enableHorizontalBounce(let a),   .enableHorizontalBounce(let b))   where a == b: return true
+    case (.addBottomMenuHairline(let a),   .addBottomMenuHairline(let b))   where a == b: return true
+    case (.menuItemWidthBasedOnTitleTextWidth(let a),   .menuItemWidthBasedOnTitleTextWidth(let b))   where a == b: return true
+    case (.titleTextSizeBasedOnMenuItemWidth(let a),   .titleTextSizeBasedOnMenuItemWidth(let b))   where a == b: return true
+    case (.scrollAnimationDurationOnMenuItemTap(let a),   .scrollAnimationDurationOnMenuItemTap(let b))   where a == b: return true
+    case (.centerMenuItems(let a),   .centerMenuItems(let b))   where a == b: return true
+    case (.hideTopMenuBar(let a),   .hideTopMenuBar(let b))   where a == b: return true
+    case (.menuHShift(let a),   .menuHShift(let b))   where a == b: return true
+    case (.controllerScrollViewHShift(let a),   .controllerScrollViewHShift(let b))   where a == b: return true
+    case (.customMenuViews(let a),   .customMenuViews(let b))   where a == b: return true
+    default: return false
+    }
+}
+
 public enum CAPSPageMenuOption {
     case selectionIndicatorHeight(CGFloat)
     case menuItemSeparatorWidth(CGFloat)
