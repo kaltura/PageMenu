@@ -1063,7 +1063,10 @@ open class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureRecogn
         // http://stackoverflow.com/questions/15490140/auto-layout-error
         //
         // Given the SO answer and caveats presented there, we'll call layoutIfNeeded() instead.
-        self.view.layoutIfNeeded()
+        //self.view.layoutIfNeeded()
+        if self.currentPageIndex < self.controllerArray.count {
+            self.controllerArray[self.currentPageIndex].view.layoutIfNeeded()
+        }
     }
     
     
