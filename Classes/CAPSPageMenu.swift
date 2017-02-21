@@ -965,7 +965,21 @@ open class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureRecogn
     }
     
     override open func viewDidLayoutSubviews() {
+        var supportedOrientation = UIInterfaceOrientationMask.all
+        if self.currentPageIndex < self.controllerArray.count {
+            supportedOrientation = self.controllerArray[self.currentPageIndex].supportedInterfaceOrientations
+        }
         
+        var isCorrectOrientation = UIApplication.shared.statusBarOrientation.isPortrait && self.view.frame.height > self.view.frame.width && supportedOrientation.contains(UIInterfaceOrientationMask.portrait)
+        
+        if !isCorrectOrientation {
+            isCorrectOrientation = UIApplication.shared.statusBarOrientation.isLandscape && self.view.frame.width > self.view.frame.height && supportedOrientation.contains(UIInterfaceOrientationMask.landscape)
+        }
+        
+        if !isCorrectOrientation {
+            return
+        }
+
         for menuView in menuItems {
             menuView.setNeedsLayout()
             menuView.layoutIfNeeded()
