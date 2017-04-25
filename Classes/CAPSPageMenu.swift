@@ -826,7 +826,7 @@ open class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureRecogn
         if tappedPoint.y < menuScrollView.frame.height {
             
             // Calculate tapped page
-            var itemIndex : Int = 0
+            var itemIndex : Int = -1
             
             if useMenuLikeSegmentedControl {
                 itemIndex = Int(tappedPoint.x / (self.view.frame.width / CGFloat(controllerArray.count)))
