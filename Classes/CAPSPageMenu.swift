@@ -177,6 +177,8 @@ open class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureRecogn
     var didLayoutSubviewsAfterRotation : Bool = false
     var didLayoutSubviewsAfterTrait : Bool = false
     var didScrollAlready : Bool = false
+    var horizontalSizeClassBeforeResignActive : UIUserInterfaceSizeClass = .unspecified
+    var verticalSizeClassBeforeResignActive : UIUserInterfaceSizeClass = .unspecified
     
     var lastControllerScrollViewContentOffset : CGFloat = 0.0
     
@@ -223,7 +225,8 @@ open class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureRecogn
         
         NotificationCenter.default.addObserver(self, selector: #selector(CAPSPageMenu.didBecomeActive(_:)), name: NSNotification.Name.UIApplicationDidBecomeActive, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(CAPSPageMenu.willEnterForeground(_:)), name: NSNotification.Name.UIApplicationWillEnterForeground, object: nil)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(CAPSPageMenu.willRessignActive(_:)), name: NSNotification.Name.UIApplicationWillResignActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CAPSPageMenu.didEnterBackground(_:)), name: NSNotification.Name.UIApplicationDidEnterBackground, object: nil)
     }
     
     deinit {
@@ -957,11 +960,21 @@ open class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureRecogn
     }
     
     func didBecomeActive(_ notification: Notification) {
-        didLayoutSubviewsAfterTrait = true
+        didLayoutSubviewsAfterTrait = traitCollection.verticalSizeClass != verticalSizeClassBeforeResignActive || traitCollection.horizontalSizeClass != horizontalSizeClassBeforeResignActive
+    }
+     
+    func willEnterForeground(_ notification: Notification) {
+        didLayoutSubviewsAfterTrait = traitCollection.verticalSizeClass != verticalSizeClassBeforeResignActive || traitCollection.horizontalSizeClass != horizontalSizeClassBeforeResignActive
     }
     
-    func willEnterForeground(_ notification: Notification) {
-        didLayoutSubviewsAfterTrait = true
+    func willRessignActive(_ notification: Notification) {
+        verticalSizeClassBeforeResignActive = traitCollection.verticalSizeClass
+        horizontalSizeClassBeforeResignActive = traitCollection.horizontalSizeClass
+    }
+
+    func didEnterBackground(_ notification: Notification) {
+        verticalSizeClassBeforeResignActive = traitCollection.verticalSizeClass
+        horizontalSizeClassBeforeResignActive = traitCollection.horizontalSizeClass
     }
     
     override open func viewDidLayoutSubviews() {
