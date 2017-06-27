@@ -177,8 +177,8 @@ open class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureRecogn
     var didLayoutSubviewsAfterRotation : Bool = false
     var didLayoutSubviewsAfterTrait : Bool = false
     var didScrollAlready : Bool = false
-    var horizontalSizeClassBeforeResignActive : UIUserInterfaceSizeClass = .unspecified
-    var verticalSizeClassBeforeResignActive : UIUserInterfaceSizeClass = .unspecified
+    var lastHorizontalSizeClass : UIUserInterfaceSizeClass = .unspecified
+    var lastVerticalSizeClass : UIUserInterfaceSizeClass = .unspecified
     
     var lastControllerScrollViewContentOffset : CGFloat = 0.0
     
@@ -957,26 +957,30 @@ open class CAPSPageMenu: UIViewController, UIScrollViewDelegate, UIGestureRecogn
     open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         didLayoutSubviewsAfterTrait = true
+        storeCurrentSizeClass()
     }
     
     func didBecomeActive(_ notification: Notification) {
-        didLayoutSubviewsAfterTrait = traitCollection.verticalSizeClass != verticalSizeClassBeforeResignActive || traitCollection.horizontalSizeClass != horizontalSizeClassBeforeResignActive
+        didLayoutSubviewsAfterTrait = traitCollection.verticalSizeClass != lastVerticalSizeClass || traitCollection.horizontalSizeClass != lastHorizontalSizeClass
     }
      
     func willEnterForeground(_ notification: Notification) {
-        didLayoutSubviewsAfterTrait = traitCollection.verticalSizeClass != verticalSizeClassBeforeResignActive || traitCollection.horizontalSizeClass != horizontalSizeClassBeforeResignActive
+        didLayoutSubviewsAfterTrait = traitCollection.verticalSizeClass != lastVerticalSizeClass || traitCollection.horizontalSizeClass != lastHorizontalSizeClass
     }
     
     func willRessignActive(_ notification: Notification) {
-        verticalSizeClassBeforeResignActive = traitCollection.verticalSizeClass
-        horizontalSizeClassBeforeResignActive = traitCollection.horizontalSizeClass
+        storeCurrentSizeClass()
     }
 
     func didEnterBackground(_ notification: Notification) {
-        verticalSizeClassBeforeResignActive = traitCollection.verticalSizeClass
-        horizontalSizeClassBeforeResignActive = traitCollection.horizontalSizeClass
+        storeCurrentSizeClass()
     }
     
+    func storeCurrentSizeClass() {
+        lastHorizontalSizeClass = traitCollection.horizontalSizeClass
+        lastVerticalSizeClass = traitCollection.verticalSizeClass
+    }
+
     override open func viewDidLayoutSubviews() {
         var supportedOrientation = UIInterfaceOrientationMask.all
         if self.currentPageIndex < self.controllerArray.count {
